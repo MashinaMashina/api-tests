@@ -1,0 +1,14 @@
+name: Проверка отчета
+request:
+  method: GET
+  url: 'http{{.secure}}://{{.TESTS_HOST}}/api/reports/{{.reportId}}/tables?tableId={{.report_element_0}}'
+  headers:
+    Authorization: 'Bearer {{.token}}'
+response:
+  code:
+    - equal: 200
+  body:
+    - type: string
+      rules:
+        - type: string
+          equal: '{"id":"{{.report_element_0}}","name":"Сводный отчет с ДУТ","columns":[{"name":"Начало движения","type":2,"total":1663142401000},{"name":"Окончание движения","type":2,"total":1663232337000},{"name":"Пробег","type":0,"total":170.181},{"name":"Время в движении","type":3,"total":36256000},{"name":"Ср. скорость","type":0,"total":26},{"name":"Макс. скорость","type":0,"total":94},{"name":"Нач. уровень","type":0,"total":266},{"name":"Кон. уровень","type":0,"total":181},{"name":"Потрачено по ДУТ","type":0,"total":85},{"name":"Всего заправок","type":0,"total":0},{"name":"Заправлено","type":0,"total":0},{"name":"Всего сливов","type":0,"total":0},{"name":"Слито","type":0,"total":0},{"name":"Ср. расход по ДУТ, л/ч","type":0,"total":3.4},{"name":"Ср. расход по ДУТ, л/100км","type":0,"total":50}],"total":true,"grouping":true,"groupColumn":true,"rows":[{"i":"1","o":"63232a0687fe52001bd6c34a","c":[1663142401000,1663172228000,103.443,19273000,28,91,266,217,49.6,0,0,0,0,4.1,47.9],"p":[0,1961],"gv":"14.09.2022","Children":null},{"i":"2","o":"63232a0687fe52001bd6c34a","c":[1663209494000,1663232337000,66.738,16983000,23,94,217,181,35.4,0,0,0,0,2.7,53],"p":[1962,3719],"gv":"15.09.2022","Children":null}],"type":1}'

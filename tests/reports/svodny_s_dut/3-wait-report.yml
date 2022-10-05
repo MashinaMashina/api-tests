@@ -1,0 +1,17 @@
+name: Ожидание отчета
+receive:
+  channel: ws-connection
+  timeout: 50
+  filter:
+    - type: json
+      rules:
+        - key: reportId
+message:
+  - type: json
+    rules:
+      - key: reportId
+        type: hex
+        store: reportId
+  - type: string
+    rules:
+      - equal: '{"accountId":"632059ac1c54830019c0c349","userId":"632059ac1c54830019c0c343","reportId":"{{.reportId}}","name":"Сводный отчет с ДУТ","status":2,"message":"","isMobile":false,"type":"report"}'

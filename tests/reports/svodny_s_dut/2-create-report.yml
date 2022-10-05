@@ -1,0 +1,11 @@
+name: Создание отчета
+request:
+  method: POST
+  url: 'http{{.secure}}://{{.TESTS_HOST}}/api/reports'
+  headers:
+    Content-Type: application/json
+    Authorization: 'Bearer {{.token}}'
+  body: '{"begin":1663099200000,"end":1663271999999,"template":"632059ac1c54830019c0c356","name":"МАЗ о732сс18 14.09 - 15.09","objects":["63232a0687fe52001bd6c34a"]}'
+response:
+  code:
+    - equal: 200

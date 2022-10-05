@@ -1,0 +1,14 @@
+name: Проверка отчета
+request:
+  method: GET
+  url: 'http{{.secure}}://{{.TESTS_HOST}}/api/reports/{{.reportId}}/rows?tableId={{.report_element_0}}&offset=0&limit=25'
+  headers:
+    Authorization: 'Bearer {{.token}}'
+response:
+  code:
+    - equal: 200
+  body:
+    - type: string
+      rules:
+        - type: string
+          equal: '{"rows":[{"i":"1","o":"63232a0687fe52001bd6c34a","c":[1663142401000,1663172228000,103.443,19273000,28,91,266,217,49.6,0,0,0,0,4.1,47.9],"p":[0,1961],"gv":"14.09.2022"},{"i":"2","o":"63232a0687fe52001bd6c34a","c":[1663209494000,1663232337000,66.738,16983000,23,94,217,181,35.4,0,0,0,0,2.7,53],"p":[1962,3719],"gv":"15.09.2022"}],"count":2,"depth":0,"eye":false}'

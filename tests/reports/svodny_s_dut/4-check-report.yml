@@ -1,0 +1,94 @@
+name: Проверка отчета
+request:
+  method: GET
+  url: 'http{{.secure}}://{{.TESTS_HOST}}/api/reports/{{.reportId}}/'
+  headers:
+    Authorization: 'Bearer {{.token}}'
+    
+# Проверяем ответ
+response:
+
+  # Проверяем код ответа
+  code:
+    - equal: 200
+    
+  # Проверяем тело ответа
+  body:
+   - type: json
+     rules:
+     
+        # ID элементов в отчете каждый раз случайные, получим их из массива elements
+        - key: elements
+          type: array
+          fields:
+          
+            # Первый элемент (ключ 0 в массиве) - Сводный отчет с ДУТ
+            - key: 0
+              type: object
+              fields:
+                
+                # берем ID
+                - key: id
+                  type: hex
+                  store: report_element_0
+                
+                # сразу проверим название элемента, чтобы подтвердить что порядок элементов не поменялся случайно
+                - key: name
+                  equal: Сводный отчет с ДУТ
+            
+            # Так же обращаемся к 1 индексу, 2, 3...            
+            - key: 1
+              type: object
+              fields:
+                - key: id
+                  type: hex
+                  store: report_element_1
+                
+                - key: name
+                  equal: Заправки
+                  
+            - key: 2
+              type: object
+              fields:
+                - key: id
+                  type: hex
+                  store: report_element_2
+                
+                - key: name
+                  equal: Возможные сливы
+                  
+            - key: 3
+              type: object
+              fields:
+                - key: id
+                  type: hex
+                  store: report_element_3
+                
+                - key: name
+                  equal: Движение ТС
+                  
+            - key: 4
+              type: object
+              fields:
+                - key: id
+                  type: hex
+                  store: report_element_4
+                
+                - key: name
+                  equal: Ур. топлива_время
+                  
+            - key: 5
+              type: object
+              fields:
+                - key: id
+                  type: hex
+                  store: report_element_5
+                
+                - key: name
+                  equal: Ур. топлива_пробег
+                  
+   # Проверяем весь ответ как строку, чтобы не описывать каждый элемент
+   - type: string
+     rules:
+        - type: string
+          equal: '{"id":"{{.reportId}}","begin":1663099200000,"end":1663271999999,"elements":[{"id":"{{.report_element_0}}","type":1,"name":"Сводный отчет с ДУТ"},{"id":"{{.report_element_1}}","type":1,"name":"Заправки"},{"id":"{{.report_element_2}}","type":1,"name":"Возможные сливы"},{"id":"{{.report_element_3}}","type":1,"name":"Движение ТС"},{"id":"{{.report_element_4}}","type":2,"name":"Ур. топлива_время"},{"id":"{{.report_element_5}}","type":2,"name":"Ур. топлива_пробег"}],"objectIds":["63232a0687fe52001bd6c34a"],"showIntervals":true,"type":1,"tmpl_name":"Сводный отчет с ДУТ"}'

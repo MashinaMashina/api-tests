@@ -1,0 +1,8 @@
+name: Открытие websocket соединения
+request:
+  protocol: websocket
+  channel: ws-connection
+  url: 'ws{{.secure}}://{{.TESTS_HOST}}/ws/any-rand-string?token={{.token}}'
+response:
+  code:
+    - equal: 101

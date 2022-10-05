@@ -1,0 +1,17 @@
+name: Авторизация
+request:
+  method: POST
+  url: 'http{{.secure}}://{{.TESTS_HOST}}/api/auth/login'
+  headers:
+    Content-type: application/json
+  body: '{"username":"{{.login}}","password":"{{.password}}"}'
+response:
+  body:
+  - type: json
+    rules:
+      - key: success
+        type: boolean
+        equal: true
+      - key: data
+        type: JWT
+        store: token

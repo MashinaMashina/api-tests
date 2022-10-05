@@ -1,0 +1,5 @@
+store:
+  host: localhost
+  secure:
+  login: ivan
+  password: qwerty123
