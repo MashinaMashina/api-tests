@@ -6,8 +6,8 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"api-tests/finder"
-	"api-tests/test"
+	"github.com/MashinaMashina/api-tests/finder"
+	"github.com/MashinaMashina/api-tests/test"
 )
 
 // Run - запускает все тесты.

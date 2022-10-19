@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"api-tests/test"
-	"api-tests/test/validators"
-	"api-tests/test/validators/rules"
+	"github.com/MashinaMashina/api-tests/test"
+	"github.com/MashinaMashina/api-tests/test/validators"
+	"github.com/MashinaMashina/api-tests/test/validators/rules"
 )
 
 type testCase struct {

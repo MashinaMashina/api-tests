@@ -9,7 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/rs/zerolog/pkgerrors"
 
-	"api-tests/service"
+	"github.com/MashinaMashina/api-tests/service"
 )
 
 func main() {

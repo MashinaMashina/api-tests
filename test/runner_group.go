@@ -12,9 +12,9 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"api-tests/store"
-	"api-tests/test/validators"
-	"api-tests/test/validators/rules"
+	"github.com/MashinaMashina/api-tests/store"
+	"github.com/MashinaMashina/api-tests/test/validators"
+	"github.com/MashinaMashina/api-tests/test/validators/rules"
 )
 
 // RunnerGroup - средство для запуска отдельных тестов в группе

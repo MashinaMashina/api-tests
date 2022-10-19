@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
 
-	"api-tests/test"
+	"github.com/MashinaMashina/api-tests/test"
 )
 
 // Find ищет все тесты в папке.

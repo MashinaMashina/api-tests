@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"api-tests/store"
-	"api-tests/test/validators/rules"
+	"github.com/MashinaMashina/api-tests/store"
+	"github.com/MashinaMashina/api-tests/test/validators/rules"
 )
 
 // Декораторы добавляют валидаторам логику взаимодействия с хранилищем,

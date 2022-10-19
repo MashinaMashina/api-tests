@@ -1,8 +1,8 @@
 package test
 
 import (
-	"api-tests/test/validators"
-	"api-tests/test/validators/rules"
+	"github.com/MashinaMashina/api-tests/test/validators"
+	"github.com/MashinaMashina/api-tests/test/validators/rules"
 )
 
 // Case - описание отдельного теста

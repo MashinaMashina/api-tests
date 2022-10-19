@@ -3,7 +3,7 @@ package validators
 import (
 	"net/http"
 
-	"api-tests/test/validators/rules"
+	"github.com/MashinaMashina/api-tests/test/validators/rules"
 )
 
 // ValidatorDescr - описание валидатора из yaml файла

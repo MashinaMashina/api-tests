@@ -1,4 +1,4 @@
-module api-tests
+module github.com/MashinaMashina/api-tests
 
 go 1.18
 

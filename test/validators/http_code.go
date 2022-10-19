@@ -3,8 +3,8 @@ package validators
 import (
 	"strconv"
 
-	"api-tests/store"
-	"api-tests/test/validators/rules"
+	"github.com/MashinaMashina/api-tests/store"
+	"github.com/MashinaMashina/api-tests/test/validators/rules"
 )
 
 type HTTPCode struct {

@@ -3,7 +3,7 @@ package validators
 import (
 	"fmt"
 
-	"api-tests/store"
+	"github.com/MashinaMashina/api-tests/store"
 )
 
 // NewBodyValidator возвращает валидатор для тела ответа
