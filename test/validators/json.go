@@ -41,7 +41,15 @@ func (j *JSON) ValidBody(rule rules.Rule, body []byte) error {
 		return fmt.Errorf("field '%s': %w", rule.Key, err)
 	}
 
-	j.storeSave(rule, fmt.Sprintf("%v", value))
+	if rule.Store != nil {
+		bytes, _, _, err := jsonparser.Get(body, rule.Key)
+
+		if err != nil {
+			return fmt.Errorf("get value for store: %w", err)
+		}
+
+		j.storeSave(rule, string(bytes))
+	}
 
 	switch rule.Type {
 	case rules.TypeObject:
