@@ -198,10 +198,11 @@ func (r *RunnerGroup) httpRequest(logger zerolog.Logger, req Request) (*http.Res
 	}
 
 	logger = logger.With().
-		Str("method", request.Method).
-		Str("url", request.URL.String()).
+		Str("method", request.method).
+		Str("url", request.url).
+		Interface("headers", request.headers).
 		Str("timeout", timeout.String()).
-		Str("body", req.Body).
+		Str("body", request.body).
 		Logger()
 
 	client := &http.Client{
@@ -212,7 +213,7 @@ func (r *RunnerGroup) httpRequest(logger zerolog.Logger, req Request) (*http.Res
 	}
 
 	// выполняем HTTP запрос
-	resp, err := client.Do(request)
+	resp, err := client.Do(request.req)
 	if err != nil {
 		return nil, r.error(logger, fmt.Errorf("sending HTTP request: %w", err))
 	} else {
@@ -222,48 +223,64 @@ func (r *RunnerGroup) httpRequest(logger zerolog.Logger, req Request) (*http.Res
 	return resp, true
 }
 
+type preparedRequest struct {
+	req     *http.Request
+	method  string
+	url     string
+	body    string
+	headers map[string]string
+}
+
 // prepareHTTPRequest подготавливает данные для HTTP запроса
-func (r *RunnerGroup) prepareHTTPRequest(ctx context.Context, req Request) (*http.Request, error) {
+func (r *RunnerGroup) prepareHTTPRequest(ctx context.Context, req Request) (preparedRequest, error) {
 	method, err := r.store.Replace(req.Method)
 
 	if err != nil {
-		return nil, fmt.Errorf("preparing method: %w", err)
+		return preparedRequest{}, fmt.Errorf("preparing method: %w", err)
 	}
 
 	url, err := r.store.Replace(req.URL)
 
 	if err != nil {
-		return nil, fmt.Errorf("preparing url: %w", err)
+		return preparedRequest{}, fmt.Errorf("preparing url: %w", err)
 	}
 
 	body, err := r.store.Replace(req.Body)
 
 	if err != nil {
-		return nil, fmt.Errorf("preparing body: %w", err)
+		return preparedRequest{}, fmt.Errorf("preparing body: %w", err)
 	}
 
 	reader := bytes.NewReader([]byte(body))
 	request, err := http.NewRequestWithContext(ctx, method, url, reader)
 
 	if err != nil {
-		return nil, fmt.Errorf("creating request: %w", err)
+		return preparedRequest{}, fmt.Errorf("creating request: %w", err)
 	}
 
+	headers := make(map[string]string, len(req.Headers))
 	for k, v := range req.Headers {
 		parsedKey, err := r.store.Replace(k)
 		if err != nil {
-			return nil, fmt.Errorf("parsing header key '%s': %w", k, err)
+			return preparedRequest{}, fmt.Errorf("parsing header key '%s': %w", k, err)
 		}
 
 		parsedValue, err := r.store.Replace(v)
 		if err != nil {
-			return nil, fmt.Errorf("parsing header value '%s': %w", v, err)
+			return preparedRequest{}, fmt.Errorf("parsing header value '%s': %w", v, err)
 		}
 
+		headers[parsedKey] = parsedValue
 		request.Header.Set(parsedKey, parsedValue)
 	}
 
-	return request, nil
+	return preparedRequest{
+		req:     request,
+		method:  method,
+		url:     url,
+		body:    body,
+		headers: headers,
+	}, nil
 }
 
 // timeout парсит число из строки в time.Duration.
