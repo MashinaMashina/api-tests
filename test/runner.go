@@ -16,7 +16,7 @@ func NewRunner() *Runner {
 
 // Run запускает выполнение группы тестов
 func (r *Runner) Run(group Group) (errors int, success int) {
-	log.Trace().Str("group", group.Name).Msg("run group")
+	log.Trace().Str("group", group.Name).Msg("====== RUN GROUP ======")
 
 	groupRunner := NewRunnerGroup(group)
 	defer groupRunner.Flush()

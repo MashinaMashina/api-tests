@@ -35,7 +35,11 @@ func NewRunnerGroup(group Group) *RunnerGroup {
 // Run - Запускает выполнение отдельного теста
 func (r *RunnerGroup) Run(test Case) bool {
 	// Логгер с данными запроса
-	logger := log.With().Str("group", r.group.Name).Str("file", test.Filename).Logger()
+	logger := log.With().
+		Str("test_name", test.Name).
+		Str("group", r.group.Name).
+		Str("file", test.Filename).
+		Logger()
 
 	if len(test.Receive.Filter) > 0 {
 		msg, ok := r.receive(logger, test.Receive)
